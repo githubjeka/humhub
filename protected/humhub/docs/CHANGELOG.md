@@ -1,11 +1,50 @@
 HumHub Change Log
 =================
 
+
 1.2.0-beta.3 under developement
 --------------------------------
+- Enh: added js module 'ui.view' for view state and utils - Changed 'ui.state.getState' to 'ui.view.getState'
+- Enh: added view helper as getHeight/Width and isSmall/Medium/Normal (width) to 'ui.view' js module
+- Fix: removed popover image preview from mobile
+- Fix: removed target-densitydpi not supported warning
+- Enh: Added Stream::renderEntry for rendering Streamentries from ContentActiveRecord
+- Fix: Wallentry menu not working in search view
+- Fix: Double notifications when mentioning in comments
+- Enh: Raised collapse value for posts to full embeded youtube video height
+- Fix: Fixed oembed post edit
+- Enh: Included select2-humhub theme into the new theming
+- Enh: Added select2 dropdown for language selection in account and admin settings
+- Enh: Added data-ui-select2 addition for simple select2 dropdowns
+- Fix: Don't apply js additions if there was no matching element
+- Fix: #2336 use of invalid message key in comment notification (dutch)
+- Enh: Disable user and space follow by means of module settings
+- Fix: Setting of submitName and upload input name in file upload JsWidget
+- Fix: Rendering of UploadButton without given id
+- Enh: Added preventPopover and popoverPosition options to file preview
+- Enh: Added uploadSingle option for uploads with only one file
+- Fix: Missing margin of wall-entry-controls in comments
+- Enh: Added alignHeight setting to js loader module
+- Enh: Allow Response as arguments for modal.setDialog
+- Enh: Enable modal loading events with dataType json
+- Enh: Allow direct class export instead of module export in JS Modules e.g. module.export = MyClass
+- Enh: Added xhr to client response instances
+- Enh: Added response.header for receiving response header from xhr
+- Enh: Added post action to client module for data-action-click="client.post"
+- Fix: Try using options url as fallback in client calls if the action instance does not provide an url. e.g. client.post(evt, {url:...}
+- Enh: Enable setting ajax dataType from trigger e.g. data-action-click="modal.load" data-action-data-type="json"
+- Enh: Added action event.data for receiving action specific data options
+- Enh: Added default run for JsWidget
+- Enh: Added File::findByRecord for searching all attached files of a given ActiveRecord
+- Fix: Only set js view state for non full page load and pjax
+- Fix: Small gap on TopNav mouse hover (acs-ferreira)
+- Enh: Humand readable file sizes. (acs-ferreira)
+- Enh: Changed default $minInput of SpacePickerField to 2. (githubjeka)
+- Fix: Error when saving "Administration -> Settings -> General" without default space. (githubjeka)
+- Fix: #826: Notification status not updated right after like.
 - Fix: #2316: Reinvitation by email not working
 - Fix: #2314: Html helper namespace issue in Markdown.php class
-- Fix #2302: Hide file info for images on wall settings not applied.
+- Fix: #2302: Hide file info for images on wall settings not applied.
 - Fix: German translation error in Admin -> Users -> Groups -> Members -> Add Member UserPicker.
 - Fix: German translation "Notify Users" placeholder too long.
 - Fix: Admin group add members placeholder.
@@ -19,6 +58,19 @@ HumHub Change Log
 - Fix: Show default error in status bar if invalid message object was provided
 - Fix #2304: Users not loaded in user selection fields.
 - Enh: Added User module 'displayNameCallback' attribute for custom display name formats
+- Enh: Added Clipboard.js and Permalink "Copy to clipboard" link
+- Enh: Validate minimum PHP version in Console Application
+- Enh: Added optional ActiveRecordContent::canEdit() method for custom ACLs
+- Fix: Better error handling/logging on corrupt GD Image files
+- Fix #2288: Pjax breaks OAuth2 ReturnUrl
+- Fix: Incorrect First name & Last name message key (githubjeka)
+- Fix: Do not store complete comments with search index (helnokaly)
+- Fix #2319: Run console application before installation
+- Fix: Directory Knob statistics on included modules (e.g. Enterprise Edition)
+- Enh: Added widget to display user profile image
+- Enh: Directory view templates cleanups
+- Fix: All LDAP Users have been disabled and not reenabled by hourly cronjob if ldap server not reachable.
+- Enh: Cleanup authentication layout file 
 
 1.2.0-beta.2 (February 24, 2017)
 --------------------------------

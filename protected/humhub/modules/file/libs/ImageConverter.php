@@ -8,10 +8,8 @@
 
 namespace humhub\modules\file\libs;
 
-use humhub\libs\Helpers;
 use Yii;
 use yii\base\Exception;
-
 
 /**
  * ImageConverter provides a simple interface for converting or resizing images.
@@ -21,7 +19,7 @@ use yii\base\Exception;
 class ImageConverter
 {
 
-    /** Max value of memory allowed to be allocated additional to the currently set memory limit in php.ini in MBytes. **/
+    /** Max value of memory allowed to be allocated additional to the currently set memory limit in php.ini in MBytes. * */
     const DEFAULT_MAX_ADDITIONAL_MEMORY_ALLOCATION = 64;
     const SETTINGS_NAME_MAX_MEMORY_ALLOCATION = 'maxImageProcessingMemoryAllocation';
 
@@ -91,13 +89,14 @@ class ImageConverter
 
     /**
      * Dynamically allocate enough memory to process the given image.
-     *
+     * 
      * @throws Exception if the memory is not sufficient to process the image.
      * @param String $sourceFile the source file.
      * @param boolean $test if true the memory will not really be allocated and no exception will be thrown.
-     * @return boolean true if sufficient memory is available.
+     * @return boolean true if sufficient memory is available. 
      */
-    public static function allocateMemory($sourceFile, $test = false) {
+    public static function allocateMemory($sourceFile, $test = false)
+    {
 
         $width = 0;
         $height = 0;
@@ -108,15 +107,14 @@ class ImageConverter
         // tweak factor, experience value
         $tweakFactor = 2.2;
         // check if the file exists, if not it seems that we do not have to allocate memory and we return true
-        if (!file_exists ( $sourceFile )) {
+        if (!file_exists($sourceFile)) {
             return true;
         }
         // getting the image width and height
         list ($width, $height) = getimagesize($sourceFile);
         // get defined memory limit from php_ini
         $memoryLimit = ini_get('memory_limit');
-        $memoryLimit = Helpers::getBytesOfIniValue($memoryLimit) * 1048576;
-        // calc needed size for processing image dimensions in Bytes.
+        // calc needed size for processing image dimensions in Bytes. 
         $neededMemory = floor(($width * $height * $bytesPerPixel * $tweakFactor + 1048576) / 1048576);
         $maxMemoryAllocation = Yii::$app->getModule('file')->settings->get(self::SETTINGS_NAME_MAX_MEMORY_ALLOCATION);
         $maxMemoryAllocation = $maxMemoryAllocation == null ? self::DEFAULT_MAX_ADDITIONAL_MEMORY_ALLOCATION : $maxMemoryAllocation;
@@ -129,10 +127,10 @@ class ImageConverter
 
         $allocatedMemory = $result == $failure ? $memoryLimit : $newMemoryLimit;
 
-        if($neededMemory + $buffer < $allocatedMemory) {
+        if ($neededMemory + $buffer < $allocatedMemory) {
             return true;
         }
-        if(!$test) {
+        if (!$test) {
             throw new Exception("Image $sourceFile too large to be resized. Increase MAX_MEMORY_USAGE");
         }
         return false;
@@ -152,6 +150,11 @@ class ImageConverter
         $height = $options['height'];
 
         $gdImage = self::getGDImageByFile($sourceFile);
+
+        if ($gdImage === null) {
+            return;
+        }
+
         $gdImage = self::fixOrientation($gdImage, $sourceFile);
 
         $sourceWidth = imagesx($gdImage);
@@ -334,16 +337,21 @@ class ImageConverter
 
         list($width, $height, $imageType) = getimagesize($fileName);
 
-        switch ($imageType) {
-            case IMAGETYPE_PNG:
-                $gdImage = imagecreatefrompng($fileName);
-                break;
-            case IMAGETYPE_GIF:
-                $gdImage = imagecreatefromgif($fileName);
-                break;
-            case IMAGETYPE_JPEG:
-                $gdImage = imagecreatefromjpeg($fileName);
-                break;
+        try {
+            switch ($imageType) {
+                case IMAGETYPE_PNG:
+                    $gdImage = imagecreatefrompng($fileName);
+                    break;
+                case IMAGETYPE_GIF:
+                    $gdImage = imagecreatefromgif($fileName);
+                    break;
+                case IMAGETYPE_JPEG:
+                    $gdImage = imagecreatefromjpeg($fileName);
+                    break;
+            }
+        } catch (\Exception $ex) {
+            Yii::warning('Could not get GD Image by file: ' . $fileName . ' - Error: ' . $ex->getMessage());
+            return null;
         }
 
         return $gdImage;
