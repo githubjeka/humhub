@@ -4,6 +4,7 @@ HumHub Change Log
 
 1.2.0-beta.3 under developement
 --------------------------------
+- Enh: Added Grunt tasks `build-assets`, `build-theme`, `build-search`
 - Fix: Error when saving account setting permission.
 - Fix: #2296 stream scroll issue for mobile webkit browsers (martinbeek)
 - Fix: Added unknown upload error if server cancels upload (e.g in case of a post_max_size violation issue)
@@ -86,6 +87,17 @@ HumHub Change Log
 - Enh: Added APCu Support
 - Enh: Added ContentContainer integrity check (Daha62)
 - Fix #2331: Bug image load on PHP 7.1 with dynamic memory alloc (githubjeka)
+- Fix #2367: `ImageConverter::allocateMemory` uses common units(MegaBates) of memory (githubjeka)
+- Fix: #2369: typo issue (Felli)
+- Fix: Better notification compatiblity - mail views and enabled WebNotificationTarget
+- Fix #2312: Pinned post appears twice on stream 
+- Enh: Added option to show/hide deactivated user content in stream
+- Enh: Allow any url route as homepage by homeUrl array application parameter
+- Fix #2255: Added missing Social Account Settings menu
+- Fix: Added missing file download http caching
+- Enh: Added console email test command
+- Enh: Added stream module defaultStreamSuppressQueryIgnore to ease overwrites
+- Enh: Added 'archived' badge to archived spaces in directory
 
 
 1.2.0-beta.2 (February 24, 2017)
