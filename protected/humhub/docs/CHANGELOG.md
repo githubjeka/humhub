@@ -1,8 +1,10 @@
 HumHub Change Log
 =================
+1.2.0-beta.3 in developement
+--------------------------------
+- Fix: Notification count '0' visible after click on notification link.
 
-
-1.2.0-beta.3 under developement
+1.2.0-beta.3 (March 20, 2017)
 --------------------------------
 - Enh: Added Grunt tasks `build-assets`, `build-theme`, `build-search`
 - Fix: Error when saving account setting permission.
