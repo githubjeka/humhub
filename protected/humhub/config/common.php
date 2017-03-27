@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://www.humhub.org/
+ * @copyright Copyright (c) 2017 HumHub GmbH & Co. KG
+ * @license https://www.humhub.com/licences
+ */
+
 Yii::setAlias('@webroot', realpath(__DIR__ . '/../../../'));
 Yii::setAlias('@app', '@webroot/protected');
 Yii::setAlias('@humhub', '@app/humhub');
@@ -19,14 +25,13 @@ $config = [
             'class' => 'humhub\modules\notification\components\NotificationManager',
             'targets' => [
                 [
-                    'class' => 'humhub\modules\notification\components\WebNotificationTarget',
-                    'renderer' => ['class' => 'humhub\modules\notification\components\WebTargetRenderer']
+                    'class' => 'humhub\modules\notification\targets\WebTarget',
+                    'renderer' => ['class' => 'humhub\modules\notification\renderer\WebRenderer']
                 ],
                 [
-                    'class' => 'humhub\modules\notification\components\MailNotificationTarget',
-                    'renderer' => ['class' => 'humhub\modules\notification\components\MailTargetRenderer']
+                    'class' => 'humhub\modules\notification\targets\MailTarget',
+                    'renderer' => ['class' => 'humhub\modules\notification\renderer\MailRenderer']
                 ],
-            //['class' => '\humhub\modules\notification\components\MobileNotificationTarget']
             ]
         ],
         'log' => [
@@ -210,7 +215,7 @@ $config = [
             'zendLucenceDataDir' => '@runtime/searchdb',
         ],
         'curl' => [
-            // Check SSL certificates on CURL requests
+            // Check SSL certificates on cURL requests
             'validateSsl' => true,
         ],
         // Allowed languages limitation (optional)

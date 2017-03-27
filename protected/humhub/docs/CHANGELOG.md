@@ -8,6 +8,18 @@ HumHub Change Log
 - Fix #2393: Markdown h4,h5,h6 broken
 - Fix #2389: calculate max upload file size on PHP 7.1 (githubjeka)
 - Fix: LDAP - Lost authclient ldap class configuration on user update
+- Fix #2400: Space ownership transfer form shows wrong users
+- Fix: Enable user approval without available registration groups or default group
+- Fix: Activate 'User' navigation in Admin Menu "Administration -> User -> Settings"
+- Enh: Improved administration user deletion view
+- Enh: Added 'containerLink' HTML Helper method
+- Enh: WallEntry layout layout improvements
+- Fix: Default user & space module configuration lost after foreign key migration
+- Fix: Respect pinned post when inserting a a new stream entry
+- Fix: Show comments in modal not working
+- Fix: #2381 Comment input not focused on comment link click 
+- Enh: Toggle comment box
+
 
 1.2.0-beta.3 (March 20, 2017)
 --------------------------------
