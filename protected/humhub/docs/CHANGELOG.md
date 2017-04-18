@@ -1,7 +1,7 @@
 HumHub Change Log
 =================
 
-1.2.0 (in developement)
+1.2.0 (April 16, 2017)
 --------------------------------
 - Fix: SVG file uploads broken (mime type: image/svg+xml)
 - Fix: Public badge missing after create post
@@ -11,6 +11,10 @@ HumHub Change Log
 - Fix #2219: Overlapping summary mail content
 - Fix: Wall entry layout link/text overflow
 - Fix: Stream - Do not surpress if only particual contents are displayed
+- Fix: GlobalModal extends base Modal widget and GlobalModal::$backdrop is false by default (githubjeka)
+- Fix: Search StreamEntry options delete/editModal
+- Fix: Tour popover close behaviour
+- Fix: Incorrect permissions in space with guest mode
 
 1.2.0-beta.4 (March 28, 2017)
 --------------------------------
