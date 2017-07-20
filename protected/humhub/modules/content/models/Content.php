@@ -43,9 +43,10 @@ class Content extends ContentDeprecated
 {
 
     /**
-     * A array of user objects which should informed about this new content.
-     *
-     * @var array User
+     * An array of user objects which should informed about this new content.
+     * If it is empty array then by default will be notify followers for the $container of this content only.
+     * If it is false then users notifications of new content will be disabled for this content.
+     * @var User[]|false
      */
     public $notifyUsersOfNewContent = [];
 
@@ -164,7 +165,10 @@ class Content extends ContentDeprecated
      */
     public function afterSave($insert, $changedAttributes)
     {
-        $contentSource = $this->getPolymorphicRelation();
+        parent::afterSave($insert, $changedAttributes);
+
+        if ($this->notifyUsersOfNewContent !== false) {
+            $contentSource = $this->getPolymorphicRelation();
 
         foreach ($this->notifyUsersOfNewContent as $user) {
             $contentSource->follow($user->id);
