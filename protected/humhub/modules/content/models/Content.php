@@ -170,32 +170,34 @@ class Content extends ContentDeprecated
         if ($this->notifyUsersOfNewContent !== false) {
             $contentSource = $this->getPolymorphicRelation();
 
-        foreach ($this->notifyUsersOfNewContent as $user) {
-            $contentSource->follow($user->id);
-        }
+            foreach ($this->notifyUsersOfNewContent as $user) {
+                $contentSource->follow($user->id);
+            }
 
-        if ($insert && !$contentSource instanceof \humhub\modules\activity\models\Activity) {
+            if ($insert && !$contentSource instanceof \humhub\modules\activity\models\Activity) {
 
-            if ($this->container !== null) {
-                $notifyUsers = array_merge($this->notifyUsersOfNewContent, Yii::$app->notification->getFollowers($this));
+                if ($this->container !== null) {
+                    $notifyUsers = array_merge($this->notifyUsersOfNewContent,
+                        Yii::$app->notification->getFollowers($this));
 
-                \humhub\modules\content\notifications\ContentCreated::instance()
+                    \humhub\modules\content\notifications\ContentCreated::instance()
                         ->from($this->user)
                         ->about($contentSource)
                         ->sendBulk($notifyUsers);
 
-                \humhub\modules\content\activities\ContentCreated::instance()
+                    \humhub\modules\content\activities\ContentCreated::instance()
                         ->about($contentSource)->save();
 
 
-                Yii::$app->live->send(new \humhub\modules\content\live\NewContent([
-                    'sguid' => ($this->container instanceof Space) ? $this->container->guid : null,
-                    'uguid' => ($this->container instanceof User) ? $this->container->guid : null,
-                    'originator' => $this->user->guid,
-                    'contentContainerId' => $this->container->contentContainerRecord->id,
-                    'visibility' => $this->visibility,
-                    'contentId' => $this->id
-                ]));
+                    Yii::$app->live->send(new \humhub\modules\content\live\NewContent([
+                        'sguid' => ($this->container instanceof Space) ? $this->container->guid : null,
+                        'uguid' => ($this->container instanceof User) ? $this->container->guid : null,
+                        'originator' => $this->user->guid,
+                        'contentContainerId' => $this->container->contentContainerRecord->id,
+                        'visibility' => $this->visibility,
+                        'contentId' => $this->id,
+                    ]));
+                }
             }
         }
 
