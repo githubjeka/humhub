@@ -5,7 +5,7 @@ HumHub Change Log
 - Enh: Increase profile image size to 800px.
 - Fix #2644 overlapping popup preview image after increasing preview image size (hagalaz)
 - Fix: Button widget child class static instantiation not working 
-- Fix: ModalButton instatiation and added ModalButton::close()
+- Fix: ModalButton instantiation and added ModalButton::close()
 - Fix: Respect `max_file_uploads` setting in UploadInput widget
 - Enh: Include `kartik-v/yii2-widgets`
 - Enh: Added `getAccessRules()` to `humhub/components/Controller`
@@ -16,6 +16,36 @@ HumHub Change Log
 - Fix: Fixed ContentContainerSettingManager caching issue if space/user id are equal
 - Enh: Use of select2 dropdown for time zone selections
 - Fix: Bypass AccessControl behavior in installer
+- Fix: Use of JS-Widget internal event object instead of node
+- Enh: Added `Formatter::getDateTimePattern()` and `Formatter::isShowMeridiem()`
+- Fix: Set formatter locale in I18N when changing locale
+- Enh: Added `$hideInStream` flag for upload component/action for changing `show_in_stream` file flag
+- Enh: Added `$showInStream` flag for `FilePreview` widget to only include files with certain `show_in_stream` flag
+- Enh: Added `FileManager::findStreamFiles()` for querying files with either given `show_in_stream = 1` or `show_in_stream = 0` flag.
+- Enh: Added `humhub\widgets\Tabs` and `humhub\widgets\SettingsTabs` with view type tab support
+- Enh: Added new `MarkdownField` input widget which as replacement of deprecated `MarkdownEditor`
+- Fix: Fixed markdown file upload pjax issue
+- Fix: Removed `display: table-cell` from markdown image css to enable inline images
+- Enh: Added `humhub/widgts/Button::userPickerSelfSelect()` for creating self select button for userpickers.
+- Enh: Added `humhub/widgts/Link::withAction()` for creating action based links
+- Enh: Added `SelectTimeZoneDropdown` widget
+- Enh: Added `Modal::closable` in order to respect `backdrop` and `keyboard` data setting of `Modal` and `ModalDialog` widget
+- Enh: Avoid cutting oembed entry in stream if it's the first part of a richtext 
+- Enh: Added `humhub/widgets/TimePicker` widget
+- Enh: Added `DbDateValidator::timeZone` for setting input time zone
+- Enh: Additional WallEntry settings: `$jsWidget`, `$addonOptions`, `$controlsOptions`, `$renderControls`, `$renderAddons`
+- Enh: Added possibility to overwrite WallEntry settings in `humhub/stream/actions/Stream::renderEntry()`
+- Enh: Added `ShowFiles::preview` and `ShowFiles::active` flag
+- Enh: Allow `$adminOnly` for User base ContentContainerController Controller
+- Enh: Added `ContentContainerActiveRecord::getDefaultContentVisibility()` and `User::getDefaultContentVisibility()`
+- Enh: Added automatic Notification Class loading by convention. No need to overwrite `Module::getNotifications()`
+- Enh: Added `ContentActiveRecord::getIcon()` for adding an badge icon to WallEntry content type badge
+- Enh: Added `ContentActiveRecord::getLabels()` for managing WallEntry labels (badges)
+- Enh: Added `Label` widget for creating sortable labels
+- Fix: Reset modal dialog size + add `size` option
+- Enh: Added `size` option `ui.modal.Modal.set()`
+- Enh: Use `ContentActiveRecord::getUrl()` for content perma links (if given)
+- Enh: Added `ContentTag` concept for creating content categories/filter on module level
 
 1.2.1 (June 17, 2017)
 - Fix: Invite error in french language

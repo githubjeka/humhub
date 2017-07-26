@@ -143,6 +143,8 @@ humhub.module('ui.modal', function (module, require, $) {
         loader.set(this.getBody());
         this.isFilled = false;
 
+        this.getDialog().removeClass('modal-dialog-large modal-dialog-normal modal-dialog-small modal-dialog-extra-small modal-dialog-medium');
+
         //reset listeners:
         this.resetListener();
     };
@@ -384,6 +386,10 @@ humhub.module('ui.modal', function (module, require, $) {
             this.setFooter(this.options.footer);
         }
 
+        if(this.options.size) {
+            this.getDialog().addClass('modal-dialog-'+this.options.size);
+        }
+
         this.options.backdrop = options.backdrop || true;
         this.options.keyboard = options.keyboard || true;
 
@@ -426,9 +432,21 @@ humhub.module('ui.modal', function (module, require, $) {
         }
         this.$.empty().append(content);
         this.applyAdditions();
-        this.$.find('input[type="text"]:visible, textarea:visible, [contenteditable="true"]:visible').first().focus();
+        this.$.find('select:visible, input[type="text"]:visible, textarea:visible, [contenteditable="true"]:visible').first().focus();
         this.checkAriaLabel();
+        this.updateDialogOptions();
+        this.$.scrollTop(0);
         return this;
+    };
+
+    Modal.prototype.updateDialogOptions = function() {
+        var test = this.getDialog();
+        var test2 = this.getDialog().data('backdrop');
+        var test3 = this.getDialog().data('keyboard');
+        this.set({
+            backdrop : this.getDialog().data('backdrop'),
+            keyboard : this.getDialog().data('keyboard')
+        });
     };
 
     /**

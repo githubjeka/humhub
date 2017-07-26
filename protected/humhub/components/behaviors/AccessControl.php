@@ -8,6 +8,8 @@
 
 namespace humhub\components\behaviors;
 
+use humhub\modules\content\components\ContentContainerController;
+use humhub\modules\space\models\Space;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\ForbiddenHttpException;
@@ -101,10 +103,8 @@ class AccessControl extends \yii\base\ActionFilter
             return $this->handleGuestAccess($action);
         }
 
-        if ($this->adminOnly && !Yii::$app->user->isAdmin()) {
-            if ($this->getControllerSpace() == null || !$this->getControllerSpace()->isAdmin()) {
-                $this->forbidden();
-            }
+        if ($this->adminOnly && !$this->isAdmin()) {
+            $this->forbidden();
         }
 
         if ($this->checkRules()) {
@@ -155,8 +155,14 @@ class AccessControl extends \yii\base\ActionFilter
      */
     protected function checkRules()
     {
+        $result = true;
         if (!empty($this->rules)) {
             foreach ($this->rules as $rule) {
+                // If the rule contains an action restriction, which does not match the current controller action we ignore the rule.
+                if(!$this->checkRuleAction($rule)) {
+                    continue;
+                }
+
                 if ($this->checkGroupRule($rule) || $this->checkPermissionRule($rule)) {
                     return true;
                 }
@@ -168,19 +174,14 @@ class AccessControl extends \yii\base\ActionFilter
     }
 
     /**
-     * Checks permission rules.
+     * Checks a given permission rules.
      *
      * @param type $rule
      * @return boolean
      */
     protected function checkPermissionRule($rule)
     {
-        if (!empty($rule['permissions'])) {
-            // If the rule contains an action restriction we ignore the permission setting if the current action is not contained in the 'action' rule setting.
-            if (!$this->checkRuleAction($rule)) {
-                return true;
-            }
-
+        if (isset($rule['permissions']) && !empty($rule['permissions'])) {
             $permissionArr = (!is_array($rule['permissions'])) ? [$rule['permissions']] : $rule['permissions'];
             $params = isset($rule['params']) ? $rule['params'] : [];
 
@@ -192,20 +193,6 @@ class AccessControl extends \yii\base\ActionFilter
         }
 
         return false;
-    }
-
-    protected function isContentContainerController()
-    {
-        return $this->owner instanceof \humhub\modules\content\components\ContentContainerController;
-    }
-
-    private function getControllerSpace()
-    {
-        if ($this->isContentContainerController()) {
-            return $this->owner->getSpace();
-        }
-
-        return null;
     }
 
     /**
@@ -223,6 +210,37 @@ class AccessControl extends \yii\base\ActionFilter
         }
 
         return true;
+    }
+
+    protected function isContentContainerController()
+    {
+        return $this->owner instanceof ContentContainerController;
+    }
+
+    protected function isAdmin()
+    {
+        if(Yii::$app->user->isGuest) {
+            return false;
+        }
+
+        if($this->isContentContainerController()) {
+            if($this->owner->contentContainer instanceof Space) {
+                return $this->owner->contentContainer->isAdmin();
+            } else {
+                return $this->owner->contentContainer->isCurrentUser();
+            }
+        }
+
+        return Yii::$app->user->isAdmin();
+    }
+
+    private function getControllerSpace()
+    {
+        if ($this->isContentContainerController()) {
+            return $this->owner->getSpace();
+        }
+
+        return null;
     }
 
     /**
