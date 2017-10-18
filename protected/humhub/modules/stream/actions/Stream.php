@@ -297,24 +297,20 @@ abstract class Stream extends Action
     {
         // TODO should be removed in next major version
         // Compatibility with pre 1.2.2
-        if(is_bool($options)) {
+        if (is_bool($options)) {
             $partial = $options;
             $options = [];
         }
 
-        $jsWidget = null;
+        if (!$record->wallEntryClass || !$record->content) {
+            return "";
+        }
 
-        if(isset($options['jsWidget'])) {
+        if (isset($options['jsWidget'])) {
             $jsWidget = $options['jsWidget'];
             unset($options['jsWidget']);
         } else {
-            if ($record->getWallEntryWidget() !== null) {
-                $jsWidget = $record->getWallEntryWidget()->jsWidget;
-            }
-        }
-
-        if ($jsWidget===null) {
-            return '';
+            $jsWidget = $record->getWallEntryWidget()->jsWidget;
         }
 
         if ($partial) {

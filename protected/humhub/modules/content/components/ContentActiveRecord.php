@@ -45,7 +45,7 @@ use yii\base\Widget;
  *
  * Note: If the underlying Content record cannot be saved or validated an Exception will thrown.
  *
- * @property Content content
+ * @property Content $content
  * @author Luke
  */
 class ContentActiveRecord extends ActiveRecord implements ContentOwner
@@ -96,7 +96,9 @@ class ContentActiveRecord extends ActiveRecord implements ContentOwner
      *
      * `$model = new MyContent($space1, Content::VISIBILITY_PUBLIC, ['myField' => 'value']);`
      *
+     * or
      *
+     * `$model = new MyContent($space1, ['myField' => 'value']);`
      * @param array|ContentContainerActiveRecord $contentContainer either the configuration or contentcontainer
      * @param int $visibility
      * @param array $config
@@ -107,7 +109,9 @@ class ContentActiveRecord extends ActiveRecord implements ContentOwner
             parent::__construct($contentContainer);
         } else if($contentContainer instanceof ContentContainerActiveRecord) {
             $this->content->setContainer($contentContainer);
-            if($visibility !== null) {
+            if(is_array($visibility)) {
+                $config = $visibility;
+            } else if($visibility !== null) {
                 $this->content->visibility = $visibility;
             }
             parent::__construct($config);
@@ -297,20 +301,6 @@ class ContentActiveRecord extends ActiveRecord implements ContentOwner
     /**
      * @inheritdoc
      */
-    public function afterDelete()
-    {
-
-        $content = Content::findOne(['object_id' => $this->id, 'object_model' => $this->className()]);
-        if ($content !== null) {
-            $content->delete();
-        }
-
-        parent::afterDelete();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function beforeSave($insert)
     {
         if (!$this->content->validate()) {
@@ -321,6 +311,20 @@ class ContentActiveRecord extends ActiveRecord implements ContentOwner
 
         $this->content->setAttribute('stream_channel', $this->streamChannel);
         return parent::beforeSave($insert);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+
+        $content = Content::findOne(['object_id' => $this->id, 'object_model' => $this->className()]);
+        if ($content !== null) {
+            $content->delete();
+        }
+
+        parent::afterDelete();
     }
 
     /**

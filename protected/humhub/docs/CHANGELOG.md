@@ -1,6 +1,52 @@
 HumHub Change Log
 =================
 
+1.2.3  (Not released yet)
+--------------------------------
+
+Important note for LDAP users: There is a new setting "ID Attribute" which should be set to clearly identify users.
+
+- Fix: Readonly markdown field issue.
+- Enh: Added flag to control automatically created social activities at content creation.
+- Enh: Fixed registration approval/denial mails and made their default value configurable.
+- Enh: Updated primary auth client interface for more flexibility
+- Enh: Added LDAP ID attribute to improve user mapping
+- Enh: Option to disable e-mail address requirement in User model
+- Fix: Overwrite of static image in theme + added documentation section
+- Fix: Account Controller exception when user is not logged in
+- Fix: Exception on notification overview page when not logged in
+- Enh: Added possibility to sort groups in directory
+- Enh: Removed LDAP UserFilter/LoginFilter length restriction
+- Fix: UTC timezone issue with `TimeZoneDropdownAddition` and added `$includeUTC` flag to `TimezoneHelper::generateList()`
+- Fix: ControllerAccess json rule
+- Enh: added `closable = false` as default `ModalDialog` widget setting
+- Fix: trigger richtext `clear` when submitting comment.
+- Fix: missing return in `FileContent::beforeValidate`
+- Fix: Mentioning search with `-` not working
+- Fix #2730: Mentioning search with `-` not working
+- Fix: File search with suffix not working
+- Enh: Added SearchAttributesEvent to improve content addon indexing (comment/file)
+- Fix: Do not automatically force modal close on stream edit
+- Enh: Added DurationPickerWidget
+- Enh: Allow `ContentActiveRecord($contentContainer, $config)` initialization
+- Fix: `WallEntry::addControl` with simple array options
+- Enh: Added `$scheme` Argument to `DownloadFileHandler::getUrl()`
+- Fix: Clear UserModule cache after save/delete
+- Fix: Prevent Integrity check failures.
+- Enh: Added default open content as modal action
+- Enh: Added possibility to add attachments in Notification MailTarget
+- Enh: Added surpressSendToOriginator Notification option
+- Chg: #2745 Removed `GroupPermission::instance()` for yii 2.0.13 compatibility
+- Enh: Added `MobileTargetProvider` abstraction for mobile push notifications
+- Enh: Added `humhub:notification:updateCount` js event
+- Enh: Show space administrators and moderators in member snippet
+- Fix: `humhub\modules\live\Module::getLegitimateContentContainerIds` behaviour with friendship module enabled
+- Enh: Added `BaseNotification:priority` to mark high priority notifications
+- Enh: Added new `User::isVisible` and `ActiveQueryUser::visible` methods
+- Fix: MarkdownEditor cursor position after inserting file/
+- Fix: Make sure own profile content is always visible to user
+- Fix #2501: Do not try to embed Youtube unauthorized videos (acs-ferreira)
+- Fix #2613: Wrong username encoding with pretty url (githubjeka)
 
 1.2.2  (August 2, 2017)
 --------------------------------

@@ -149,8 +149,7 @@ humhub.module('stream', function (module, require, $) {
     StreamEntry.prototype.editModal = function (evt) {
         var that = this;
         modal.load(evt).then(function (response) {
-            modal.global.$.one('submitted', function () {
-                modal.global.close();
+            modal.global.$.one('hidden.bs.modal', function () {
                 that.reload();
             });
         }).catch(function (e) {
@@ -815,7 +814,6 @@ humhub.module('stream', function (module, require, $) {
      * @returns {humhub_stream_L5.StreamEntry}
      */
     Stream.prototype.getEntryByNode = function ($childNode) {
-        debugger;
         return new this.cfg.streamEntryClass($childNode.closest(DATA_STREAM_ENTRY_SELECTOR));
     };
 
@@ -935,7 +933,6 @@ humhub.module('stream', function (module, require, $) {
         var that = this;
 
         return client.get(contentModule.config.reloadUrl, {data: {id: contentId}}).then(function (response) {
-            debugger;
             that.appendEntry(response.output);
             return response;
         });

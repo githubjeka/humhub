@@ -130,14 +130,14 @@ class MembershipController extends \humhub\modules\content\components\ContentCon
 
         return $this->renderAjax('requestMembership', ['model' => $model, 'space' => $space]);
     }
-    
+
     public function actionRevokeNotifications()
     {
         $space = $this->getSpace();
         Yii::$app->notification->setSpaceSetting(Yii::$app->user->getIdentity(), $space, false);
         return $this->redirect($space->getUrl());
     }
-    
+
     public function actionReceiveNotifications()
     {
         $space = $this->getSpace();
@@ -267,7 +267,7 @@ class MembershipController extends \humhub\modules\content\components\ContentCon
         $title = Yii::t('SpaceModule.controllers_MembershipController', "<strong>Members</strong>");
 
         return $this->renderAjaxContent(UserListBox::widget([
-                            'query' => Membership::getSpaceMembersQuery($this->getSpace()),
+                            'query' => Membership::getSpaceMembersQuery($this->getSpace())->visible(),
                             'title' => $title
         ]));
     }
