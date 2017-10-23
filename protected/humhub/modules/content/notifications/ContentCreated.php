@@ -11,6 +11,7 @@ namespace humhub\modules\content\notifications;
 use Yii;
 use yii\bootstrap\Html;
 use humhub\modules\user\models\User;
+use humhub\libs\Helpers;
 
 /**
  * ContentCreatedNotification is fired to all users which are manually selected
@@ -86,11 +87,6 @@ class ContentCreated extends \humhub\modules\notification\components\BaseNotific
     protected function isExplicitNotifyUser(User $user)
     {
         $content = $this->getContent();
-
-        if ($content->notifyUsersOfNewContent === false) {
-            return false;
-        }
-
         foreach ($content->notifyUsersOfNewContent as $notifyUser) {
             if ($notifyUser->id === $user->id) {
                 return true;
@@ -100,3 +96,5 @@ class ContentCreated extends \humhub\modules\notification\components\BaseNotific
     }
 
 }
+
+?>
