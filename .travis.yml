@@ -21,8 +21,7 @@ services: mysql
 
 before_install:
   - phantomjs -v
-  - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
+  - echo "extension=ldap.so" >>php --ini | grep "Loaded Configuration" | sed -e "s|.:\s||"``
 install:
   #- wget http://chromedriver.storage.googleapis.com/2.10/chromedriver_linux64.zip
   #- unzip chromedriver_linux64.zip -d ./
@@ -40,7 +39,7 @@ install:
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "fxp/composer-asset-plugin:~1.3"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - travis_retry composer install --dev --prefer-dist --no-interaction
+  - travis_retry composer install --prefer-dist --no-interaction
   - travis_retry composer global require "codeception/codeception=2.3.*" "codeception/specify=*" "codeception/verify=*"
   # Install test environment
   - |
