@@ -65,6 +65,5 @@ script:
 after_failure:
   - cd ../modules/user/tests/codeception/_output/
   - ls
-  - cat useracceptancePasswordRecoveryCest.testPasswordRecovery.fail.html
-   #cat ../modules/*/tests/codeception/_output/*.html
-    
+  - cat ../modules/*/tests/codeception/_output/*.html
+
