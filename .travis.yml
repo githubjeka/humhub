@@ -50,8 +50,9 @@ install:
   - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip
   - unzip -o -q chromedriver_linux64.zip
   - echo "Run selenium server - background process"
-  - nohup bash -c "java -jar selenium-server-standalone.jar &" && sleep 1; cat nohup.out
+  - nohup bash -c "java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone.jar &" && sleep 1; cat nohup.out
   - ls -al
+  - curl http://localhost:4444/grid/console
 
   # Run Composer update
   - travis_retry composer self-update && composer --version
