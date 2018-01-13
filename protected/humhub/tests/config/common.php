@@ -24,6 +24,6 @@ return [
     ],
     'params' => [
         'installed' => true,
-        'moduleAutoloadPaths' => ['/home/travis/build/humhub'],
+//        'moduleAutoloadPaths' => ['/home/travis/build/humhub'],
     ]
 ];
