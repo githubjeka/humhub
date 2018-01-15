@@ -36,9 +36,9 @@ before_install:
 install:
   # Download and start selenium
   - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
-  - tar -xzf geckodriver-v0.19.1-linux64.tar.gz -C geckodriver
+  - tar -xzf geckodriver-v0.19.1-linux64.tar.gz
   - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/hvDPsK -O selenium-server-standalone.jar # 3.8.1 version
-  - nohup java -Dwebdriver.gecko.driver=geckodriver -jar selenium-server-standalone.jar >selenium.log 2>&1 &
+  - nohup java -jar selenium-server-standalone.jar >selenium.log 2>&1 &
   - sleep 10
   - curl http://localhost:4444/wd/hub
   - cat selenium.log
