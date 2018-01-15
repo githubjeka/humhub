@@ -64,7 +64,7 @@ install:
   - nohup php -S 127.0.0.1:8080 > php-server.log 2>&1 &
   - sleep 5
   - curl http://127.0.0.1:8080/index-test.php
-  - php-server.log
+  - cat php-server.log
 
 script:
   - codecept run -c protected/humhub/tests acceptance ../modules/user/tests/codeception/acceptance/InviteCest.php
