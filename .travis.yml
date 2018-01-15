@@ -67,9 +67,10 @@ install:
   - sleep 5
   - curl http://127.0.0.1:8080/index-test.php
   - cat php-server.log
+  - cd protected/humhub/tests/
 
 script:
-  - codecept run -c protected/humhub/tests acceptance protected/humhub/modules/user/tests/codeception/acceptance/InviteCest.php
+  - codecept run
 
 after_failure:
   - cat ../modules/user/tests/codeception/_output/*.html
