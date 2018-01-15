@@ -21,7 +21,7 @@ matrix:
   fast_finish: true
 
 # faster builds on new travis setup not using sudo
-# sudo: false
+sudo: false
 
 # cache vendor dirs
 cache:
@@ -36,14 +36,12 @@ before_install:
 install:
   # Download and start selenium
   - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-arm7hf.tar.gz
-  - mkdir geckodriver
-  - tar -xzf geckodriver-v0.19.1-arm7hf.tar.gz -C geckodriver
-  - export PATH=$PATH:$PWD/geckodriver
-  - whereis geckodriver
+  - tar -xzf geckodriver-v0.19.1-arm7hf.tar.gz -C /usr/local/bin
   - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/hvDPsK -O selenium-server-standalone.jar # 3.8.1 version
-  - nohup java -jar selenium-server-standalone.jar >/dev/null 2>&1 &
+  - nohup java -Dwebdriver.gecko.driver=/usr/local/bin/geckodriver -jar selenium-server-standalone.jar >selenium.log 2>&1 &
   - sleep 10
   - curl http://localhost:4444/wd/hub
+  - cat selenium.log
 
   # Run Composer update
   - travis_retry composer self-update && composer --version
@@ -63,13 +61,14 @@ install:
 
    # php-web-server
   - cd ../../../
-  - nohup php -S 127.0.0.1:8080 > /dev/null 2>&1 &
+  - nohup php -S 127.0.0.1:8080 > php-server.log 2>&1 &
   - sleep 5
   - curl http://127.0.0.1:8080/index-test.php
+  - php-server.log
   - cd protected/humhub/tests/
 
 script:
-  - codecept run acceptance ../modules/user/tests/codeception/acceptance/AccountCest.php
+  - codecept run acceptance ../modules/user/tests/codeception/acceptance/InviteCest.php
 
 after_failure:
   - cat ../modules/user/tests/codeception/_output/*.html
