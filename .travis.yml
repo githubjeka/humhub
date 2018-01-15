@@ -9,8 +9,6 @@ os:
 git:
   depth: 1
 
-env:
-  - MOZ_HEADLESS=1
 addons:
   firefox: latest
 
@@ -41,6 +39,7 @@ install:
   - mkdir geckodriver
   - tar -xzf geckodriver-v0.19.1-arm7hf.tar.gz -C geckodriver
   - export PATH=$PATH:$PWD/geckodriver
+  - whereis geckodriver
   - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/hvDPsK -O selenium-server-standalone.jar # 3.8.1 version
   - nohup java -jar selenium-server-standalone.jar >/dev/null 2>&1 &
   - sleep 10
