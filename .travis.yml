@@ -11,6 +11,8 @@ git:
 
 addons:
   firefox: latest
+env:
+  - MOZ_HEADLESS=1
 
 php:
   - 5.6
