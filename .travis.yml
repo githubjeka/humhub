@@ -37,6 +37,10 @@ before_install:
   - echo "extension=ldap.so" >>php --ini | grep "Loaded Configuration" | sed -e "s|.:\s||"``
 install:
   # Download and start selenium
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-arm7hf.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver-v0.19.1-arm7hf.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
   - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/hvDPsK -O selenium-server-standalone.jar # 3.8.1 version
   - nohup java -jar selenium-server-standalone.jar >/dev/null 2>&1 &
   - sleep 10
