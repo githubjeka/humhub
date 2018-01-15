@@ -70,7 +70,7 @@ install:
   - cd protected/humhub/tests/
 
 script:
-  - codecept run acceptance ../modules/user/test/codeception/acceptance/AccountCest.php
+  - codecept run acceptance ../modules/user/tests/codeception/acceptance/AccountCest.php
 
 after_failure:
   - cat ../modules/user/tests/codeception/_output/*.html
