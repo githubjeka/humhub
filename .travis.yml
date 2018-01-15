@@ -7,9 +7,7 @@ os:
 
 # Install google chrome latest stable
 addons:
-  apt:
-    packages:
-      - google-chrome-stable
+  chrome: stable
 
 # git configs
 git:
@@ -33,26 +31,20 @@ cache:
 services: mysql
 
 before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost
   - phpenv config-rm xdebug.ini # Disable x-debug to speed up things
   - echo "extension=ldap.so" >>php --ini | grep "Loaded Configuration" | sed -e "s|.:\s||"``
 install:
-  #- wget http://chromedriver.storage.googleapis.com/2.10/chromedriver_linux64.zip
-  #- unzip chromedriver_linux64.zip -d ./
-  #- export CHROME_BIN=chromium-browser
-  # Start xvfb for gui test
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
+
   # Download and start selenium
-  - echo "Download selenium-server-standalone jar file"
   - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/s4o9Vx -O selenium-server-standalone.jar
-  - echo "Download chrome driver and unzip it"
-  - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip
+  - wget -c -nc --retry-connrefused --tries=0 https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
   - unzip -o -q chromedriver_linux64.zip
-  - echo "Run selenium server - background process"
-  - nohup bash -c "java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone.jar &" && sleep 1; cat nohup.out
-  - ls -al
-  - curl http://localhost:4444/grid/console
+  - java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone.jar
+  - sleep 5
 
   # Run Composer update
   - travis_retry composer self-update && composer --version
@@ -72,15 +64,13 @@ install:
     codecept build
     cd ../../../
 
-script:
   - php -S 127.0.0.1:8080 > /dev/null 2>&1 &
-  - sleep 5
+  - sleep 3
   - curl http://127.0.0.1:8080/index-test.php
+
+script:
   - |
     cd protected/humhub/tests/
     codecept run --env chrome
 after_failure:
-  - cd ../modules/user/tests/codeception/_output/
-  - ls
-  - cat ../modules/*/tests/codeception/_output/*.html
-
+  - cat ../modules/user/tests/codeception/_output/*.html
