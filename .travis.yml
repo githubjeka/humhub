@@ -57,25 +57,22 @@ install:
 
   # Install test environment
   - mysql -e 'CREATE DATABASE `humhub_test` CHARACTER SET utf8 COLLATE utf8_general_ci;'
-  - |
-    cd protected/humhub/tests/codeception/bin
-    php yii migrate/up --includeModuleMigrations=1 --interactive=0
+  - cd protected/humhub/tests/codeception/bin
+  - php yii migrate/up --includeModuleMigrations=1 --interactive=0
   - php yii installer/auto
   - php yii search/rebuild
-  - |
-    cd ../../
-    codecept build
+  - cd ../../
+  - codecept build
 
    # php-web-server
-  - |
-    cd ../../../
-    nohup php -S 127.0.0.1:8080 > /dev/null 2>&1 &
+  - cd ../../../
+  - nohup php -S 127.0.0.1:8080 > /dev/null 2>&1 &
   - sleep 5
   - curl http://127.0.0.1:8080/index-test.php
 
 script:
-  - |
-    cd protected/humhub/tests/
-    codecept run --env chrome-headless
+  - cd protected/humhub/tests/
+  - codecept run --env chrome
+
 after_failure:
   - cat ../modules/user/tests/codeception/_output/*.html
