@@ -38,14 +38,15 @@ before_install:
 install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
+  - sleep 3
 
   # Download and start selenium
-  - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/s4o9Vx -O selenium-server-standalone.jar
+  - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/hvDPsK -O selenium-server-standalone.jar # 3.8.1 version
   - wget -c -nc --retry-connrefused --tries=0 https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
   - unzip -o -q chromedriver_linux64.zip
-  - java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone.jar
+  - nohup java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone.jar >/dev/null 2>&1
   - sleep 5
+  - curl http://localhost:4444/wd/hub
 
   # Run Composer update
   - travis_retry composer self-update && composer --version
@@ -65,13 +66,13 @@ install:
     codecept build
     cd ../../../
 
-  - php -S 127.0.0.1:8080 > /dev/null 2>&1 &
+  - nohup php -S 127.0.0.1:8080 > /dev/null 2>&1 &
   - sleep 3
   - curl http://127.0.0.1:8080/index-test.php
 
 script:
   - |
     cd protected/humhub/tests/
-    codecept run --env chrome
+    codecept run --env chrome-headless
 after_failure:
   - cat ../modules/user/tests/codeception/_output/*.html
