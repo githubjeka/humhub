@@ -45,7 +45,7 @@ install:
   - wget -c -nc --retry-connrefused --tries=0 https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
   - unzip -o -q chromedriver_linux64.zip
   - nohup java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone.jar >/dev/null 2>&1 &
-  - sleep 5
+  - sleep 10
   - curl http://localhost:4444/wd/hub
 
   # Run Composer update
@@ -54,20 +54,21 @@ install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - travis_retry composer install --prefer-dist --no-interaction
   - travis_retry composer global require "codeception/codeception=2.3.*" "codeception/specify=*" "codeception/verify=*"
+
   # Install test environment
-  - |
-    mysql -e 'CREATE DATABASE `humhub_test` CHARACTER SET utf8 COLLATE utf8_general_ci;'
-    cd protected/humhub/tests/codeception/bin
+  - mysql -e 'CREATE DATABASE `humhub_test` CHARACTER SET utf8 COLLATE utf8_general_ci;'
+  - | cd protected/humhub/tests/codeception/bin
     php yii migrate/up --includeModuleMigrations=1 --interactive=0
-    php yii installer/auto
-    php yii search/rebuild
-    cd ../../../../..
+  - php yii installer/auto
+  - php yii search/rebuild
+  - | cd ../../../../..
     cd protected/humhub/tests
     codecept build
-    cd ../../../
 
+   # php-web-server 
+  - cd ../../../
   - nohup php -S 127.0.0.1:8080 > /dev/null 2>&1 &
-  - sleep 3
+  - sleep 5
   - curl http://127.0.0.1:8080/index-test.php
 
 script:
