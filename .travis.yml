@@ -9,10 +9,16 @@ os:
 git:
   depth: 1
 
+env:
+  - MOZ_HEADLESS=1
+addons:
+  firefox: latest
+
 php:
   - 5.6
   - 7.0
   - 7.1
+
 matrix:
   fast_finish: true
 
@@ -30,10 +36,6 @@ before_install:
   - phpenv config-rm xdebug.ini # Disable x-debug to speed up things
   - echo "extension=ldap.so" >>php --ini | grep "Loaded Configuration" | sed -e "s|.:\s||"``
 install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3
-
   # Download and start selenium
   - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/hvDPsK -O selenium-server-standalone.jar # 3.8.1 version
   - nohup java -jar selenium-server-standalone.jar >/dev/null 2>&1 &
