@@ -67,7 +67,7 @@ install:
   - cat php-server.log
 
 script:
-  - codecept run -c protected/humhub/tests acceptance ../modules/user/tests/codeception/acceptance/InviteCest.php
+  - codecept run -c protected/humhub/tests acceptance protected/humhub/modules/user/tests/codeception/acceptance/InviteCest.php
 
 after_failure:
   - cat ../modules/user/tests/codeception/_output/*.html
