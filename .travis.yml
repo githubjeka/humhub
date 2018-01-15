@@ -44,7 +44,7 @@ install:
   - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/hvDPsK -O selenium-server-standalone.jar # 3.8.1 version
   - wget -c -nc --retry-connrefused --tries=0 https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
   - unzip -o -q chromedriver_linux64.zip
-  - nohup java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone.jar >/dev/null 2>&1
+  - nohup java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone.jar >/dev/null 2>&1 &
   - sleep 5
   - curl http://localhost:4444/wd/hub
 
