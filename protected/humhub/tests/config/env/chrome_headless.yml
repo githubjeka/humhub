@@ -1,4 +1,4 @@
 modules:
     config:
         WebDriver:
-            browser: 'google-chrome-stable --headless --disable-gpu'
+            browser: 'chrome --headless'
