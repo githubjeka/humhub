@@ -7,7 +7,9 @@ os:
 
 # Install google chrome latest stable
 addons:
-  chrome: stable
+  apt:
+    packages:
+      - google-chrome-stable
 
 # git configs
 git:
@@ -31,7 +33,6 @@ cache:
 services: mysql
 
 before_install:
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost
   - phpenv config-rm xdebug.ini # Disable x-debug to speed up things
   - echo "extension=ldap.so" >>php --ini | grep "Loaded Configuration" | sed -e "s|.:\s||"``
 install:
