@@ -37,11 +37,9 @@ install:
   # Download and start selenium
   - wget https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
   - unzip -o -q chromedriver_linux64.zip
-  - wget -c -nc --retry-connrefused --tries=0 https://goo.gl/hvDPsK -O selenium-server-standalone.jar # 3.8.1 version
-  - nohup java -jar selenium-server-standalone.jar >selenium.log 2>&1 &
-  - sleep 10
-  - curl http://localhost:4444/wd/hub
-  - cat selenium.log
+  - nohup chromedriver --url-base=/wd/hub >chromedriver.log 2>&1 &
+  - sleep 3
+  - cat chromedriver.log
 
   # Run Composer update
   - travis_retry composer self-update && composer --version
