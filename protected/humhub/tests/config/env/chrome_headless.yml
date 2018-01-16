@@ -4,3 +4,6 @@ modules:
             browser: 'chrome'
             window_size: false # disabled in ChromeDriver
             port: 9515
+            capabilities:
+                chromeOptions:
+                    args: ['--headless']
