@@ -37,7 +37,8 @@ install:
   # Download and start selenium
   - wget https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
   - unzip -o -q chromedriver_linux64.zip
-  - nohup chromedriver --url-base=/wd/hub >chromedriver.log 2>&1 &
+  - chmod +x chromedriver
+  - nohup ./chromedriver --url-base=/wd/hub >chromedriver.log 2>&1 &
   - sleep 3
   - cat chromedriver.log
 
