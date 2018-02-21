@@ -21,7 +21,7 @@ matrix:
   fast_finish: true
 
 # faster builds on new travis setup not using sudo
-sudo: false
+sudo: "required"
 
 # cache vendor dirs
 cache:
